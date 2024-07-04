@@ -1,4 +1,4 @@
-import 'package:rctv_test/root_app_config.dart';
+import '../../root_app_config.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class PreferencesService {

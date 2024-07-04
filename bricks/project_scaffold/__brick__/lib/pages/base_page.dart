@@ -69,7 +69,7 @@ class _BasePageState<T extends BaseViewModel> extends State<BasePage<T>> {
   @override
   Widget build(BuildContext context) {
     return BasePageParentIndicator(
-      child: widget.buildPage(context, viewModel)
+      child: widget.buildPage(context, _viewModelInstance!)
     );
   }
 }
