@@ -31,3 +31,7 @@ vars:
     description: A name for your new page
     default: NewPage
     prompt: Enter a name for your page
+  includeAppBar:
+    type: boolean
+    description: Whether to include an AppBar in the Flutter page
+    prompt: Should this page include an AppBar?
