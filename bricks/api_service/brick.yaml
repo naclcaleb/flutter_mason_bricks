@@ -34,5 +34,5 @@ vars:
   baseUrl:
     type: string
     description: The base URL of all the API endpoints
-    default: https://example.com
+    default: 'https://example.com'
     prompt: What is the base URL of your service?
