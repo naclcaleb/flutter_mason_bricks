@@ -1,0 +1,17 @@
+bricks:
+  project_scaffold:
+    git:
+      url: 'https://github.com/naclcaleb/flutter_mason_bricks'
+      path: bricks/project_scaffold
+  app_page:
+    git:
+      url: 'https://github.com/naclcaleb/flutter_mason_bricks'
+      path: bricks/app_page
+  data_object:
+    git:
+      url: 'https://github.com/naclcaleb/flutter_mason_bricks'
+      path: bricks/data_object
+  api_service:
+    git:
+      url: 'https://github.com/naclcaleb/flutter_mason_bricks'
+      path: bricks/api_service

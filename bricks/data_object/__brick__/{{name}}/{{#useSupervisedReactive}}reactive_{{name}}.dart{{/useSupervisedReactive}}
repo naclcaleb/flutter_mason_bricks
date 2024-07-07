@@ -1,0 +1,8 @@
+import 'package:rctv/rctv.dart';
+import '{{name}}.dart';
+
+class Reactive{{name.pascalCase()}} extends SupervisedReactive<{{name.pascalCase()}}> {
+
+  Reactive{{name.pascalCase()}}({{name.pascalCase()}} {{name.camelCase()}}) : super('Reactive{{name.pascalCase()}} ${ {{name.camelCase()}}.id }', initialValue: {{name.camelCase()}});
+
+}
