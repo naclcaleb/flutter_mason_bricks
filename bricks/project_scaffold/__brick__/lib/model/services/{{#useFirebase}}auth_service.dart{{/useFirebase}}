@@ -1,20 +1,95 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import '../api/server.dart';
-import '../auth/auth_controller.dart';
-import '../services/error_service.dart';
-import '../../service_locator.dart';
+
+import '../error_handlers/firebase_error_handler.dart';
+import '../error_handlers/info_exception.dart';
 
 class AuthService {
-
-  final ErrorService _errorService = sl();
-
   final FirebaseAuth _auth;
-  final Server _server;
-  final AuthController _authController = sl();
 
-  AuthService(this._auth, this._server);
+  AuthService(this._auth);
 
-  String get currentUserId => _authController.getCurrentUserId();
+  User? get currentUser => _auth.currentUser;
+
+  String get currentUserId { 
+    if (currentUser == null) throw Exception('User not logged in!');
+    return currentUser!.uid;
+  }
+
+  bool isBlockingNavigation = false;
 
   //Auth service functions go here
+  
+  //Removed because Flutter changed the requirements for google sign in on web
+  /*Future<void> signInWithGoogle() async {
+
+    try {
+      final googleUser = await _googleSignIn.signIn();
+      final googleAuth = await googleUser?.authentication;
+      final credential = GoogleAuthProvider.credential(
+        idToken: googleAuth?.idToken,
+        accessToken: googleAuth?. accessToken
+      );
+
+      await _auth.signInWithCredential(credential);
+    } on FirebaseAuthException catch(error) {
+      _errorService.receiveError(error);
+    }
+
+  }*/
+
+  Future<void> signInWithEmailPassword(String email, String password) async {
+
+    try {
+      await _auth.signInWithEmailAndPassword(email: email, password: password);
+    } on FirebaseAuthException catch(error) {
+      throw InfoException(FirebaseErrorHandler.getErrorMessage(error));
+    }
+
+  }
+
+  final List<Function(bool isLoggedIn)> _listeners = [];
+
+  void listenForAuthStateChanges(Function(bool isLoggedIn) listener) {
+    _listeners.add(listener);
+    _auth.authStateChanges().listen((User? user) {
+      if (isBlockingNavigation) return;
+      if (user == null) {
+        listener(false);
+      } else {
+        listener(true);
+      }
+    });
+  }
+
+  void beginBlockingAuthListeners() {
+    isBlockingNavigation = true;
+  }
+  void reactivateAuthListeners() {
+    isBlockingNavigation = false;
+  }
+  void notifyListenersOfAuthorization() {
+    for (final listener in _listeners) {
+      listener(true);
+    }
+  }
+
+  bool isLoggedIn() {
+    return _auth.currentUser != null;
+  }
+
+  Future<void> signOut() async {
+    await _auth.signOut();
+  }
+
+  Future<String> getSessionToken() async {
+    if (_auth.currentUser == null) {
+      throw Exception('User is not logged in');
+    }
+    return await _auth.currentUser!.getIdToken() ?? '';
+  }
+
+  getCurrentUserId() {
+    if (_auth.currentUser == null) throw Exception('User is not logged in');
+    return _auth.currentUser!.uid;
+  }
 }

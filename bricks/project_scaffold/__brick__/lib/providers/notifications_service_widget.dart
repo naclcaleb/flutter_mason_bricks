@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'model/services/notification_service.dart';
-import 'service_locator.dart';
+import '../model/services/notification_service.dart';
+import '../service_locator.dart';
 
 class NotificationsServiceWidget extends StatefulWidget {
 

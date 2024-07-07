@@ -1,15 +1,13 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-{{#useFirebase}}
-import '../auth/auth_controller.dart';
-{{/useFirebase}}
 import '../error_handlers/info_exception.dart';
 import '../../service_locator.dart';
 import 'package:uuid/uuid.dart';
 import '../../components/system_alert.dart';
 {{#useFirebase}}
 import 'package:firebase_storage/firebase_storage.dart';
+import 'auth_service.dart';
 {{/useFirebase}}
 import 'error_service.dart';
 
@@ -31,8 +29,9 @@ class MediaService {
 
   {{#useFirebase}}
   final FirebaseStorage _storage = sl();
+  final AuthService _authService = sl();
   {{/useFirebase}}
-  final AuthController _authController = sl();
+
   final ErrorService _errorService = sl();
 
   final Uuid uuid = const Uuid();

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:rctv/providers/reactive_provider.dart';
 import 'app_theme.dart';
-import 'global_error_widget.dart';
-import 'model/auth/auth_widget.dart';
-import 'notifications_service_widget.dart';
+import 'providers/global_error_widget.dart';
+import 'providers/auth_widget.dart';
+import 'providers/notifications_service_widget.dart';
 import 'routes.dart';
 import 'service_locator.dart';
 

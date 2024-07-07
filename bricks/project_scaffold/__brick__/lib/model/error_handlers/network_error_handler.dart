@@ -1,4 +1,4 @@
-import '../api/requests.dart';
+import '../api/api_request.dart';
 import '../error_handlers/http_error_messages.dart';
 
 class NetworkException implements Exception {

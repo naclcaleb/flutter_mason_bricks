@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import '../auth/auth_controller.dart';
-import '../../service_locator.dart';
+import '../model/services/auth_service.dart';
+import '../service_locator.dart';
 
 class GlobalAuthWidget extends StatefulWidget {
 
@@ -17,14 +17,14 @@ class GlobalAuthWidget extends StatefulWidget {
 
 class _GlobalAuthWidgetState extends State<GlobalAuthWidget> {
 
-  final AuthController _authController = sl();
+  final AuthService _authService = sl();
 
   @override
   void initState() {
     super.initState();
 
     //The whole job of this widget is to handle navigation based on auth state
-    _authController.listenForAuthStateChanges((userLoggedIn) {
+    _authService.listenForAuthStateChanges((userLoggedIn) {
 
       final navContext = widget.navigatorKey.currentContext;
 
@@ -35,7 +35,7 @@ class _GlobalAuthWidgetState extends State<GlobalAuthWidget> {
 
       } else {
         //Go to the login page
-        navContext?.go('/tab1');
+        navContext?.go('/tab2');
       }
     });
   }

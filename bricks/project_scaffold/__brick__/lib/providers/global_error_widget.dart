@@ -2,9 +2,9 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:rctv/rctv.dart';
-import 'service_locator.dart';
+import '../service_locator.dart';
 
-import 'model/services/error_service.dart';
+import '../model/services/error_service.dart';
 
 class GlobalErrorWidget extends StatelessWidget {
 

@@ -5,6 +5,39 @@ enum HttpMethod {
   delete,
 }
 
+class ApiRequest {
+
+  final String route;
+  final String? name;
+  final HttpMethod method;
+  final bool requiresAuth;
+  final Map<String, dynamic>? data;
+
+  ApiRequest({ required this.route, required this.method, this.requiresAuth = false, this.data, this.name });
+
+  String describe() {
+    var dataString = '';
+    
+    if (data != null && data!.isNotEmpty) {
+      for (var key in data!.keys) {
+        dataString += '\t$key: ${data![key].runtimeType}\n';
+      }
+    }
+
+    var responseString = '''
+Request: $name, Route: $route, Method: $method, Requires Auth: $requiresAuth''';
+
+    if (dataString.isNotEmpty) {
+      responseString += '\nParameters:\n $dataString';
+    }
+
+    return responseString;
+  }
+
+
+
+}
+
 class Request {
   String route;
   String name;
@@ -32,14 +65,4 @@ Request: $name, Route: $route, Method: $method, Requires Auth: $requiresAuth''';
 
     return responseString;
   }
-}
-
-class Requests {
-
-  static Request testRequest(String param) {
-    return Request('route/to/endpoint', HttpMethod.post, true /* Requires Auth */, data: {
-      'param': param
-    }, name: 'Test');
-  }
-
 }

@@ -3,9 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 {{/useFirebase}}
 import 'package:get_it/get_it.dart';
+import 'package:rctv/rctv.dart';
 import 'app_theme.dart';
-import 'model/api/server.dart';
-import 'model/auth/auth_controller.dart';
 import 'model/error_handlers/error_service_plugins/api_error_plugin.dart';
 import 'model/services/auth_service.dart';
 import 'model/services/error_service.dart';
@@ -31,15 +30,15 @@ void initLocator() {
   ]);
   sl.registerSingleton(errorService);
 
+  //Set up Loadable errors
+  Loadable.defaultErrorHandler = errorService.receiveError;
+
   {{#useFirebase}}
-  sl.registerLazySingleton(() => AuthController( FirebaseAuth.instance ));
   sl.registerLazySingleton(() => FirebaseStorage.instance);
   {{/useFirebase}}
 
-  sl.registerLazySingleton(() => Server( sl() ));
-
   {{#useFirebase}}
-  sl.registerLazySingleton(() => AuthService(FirebaseAuth.instance, sl<Server>()));
+  sl.registerLazySingleton(() => AuthService(FirebaseAuth.instance));
   {{/useFirebase}}
 
   sl.registerLazySingleton(() => NotificationService());
