@@ -1,12 +1,12 @@
 import 'dart:convert';
 import 'dart:developer';
-
 import '../../root_app_config.dart';
 import '../../service_locator.dart';
+import '../error_handlers/info_exception.dart';
 import '../error_handlers/network_error_handler.dart';
 import '../services/error_service.dart';
 import 'api_request.dart';
-import 'api_response.dart';
+import 'json_tools.dart';
 import 'package:http/http.dart' as http;
 
 abstract class ApiService {
@@ -15,6 +15,10 @@ abstract class ApiService {
   final String? devBaseUrl = null;
 
   final ErrorService _errorService = sl();
+
+  ApiService() {
+    _registerAllApiResponses();
+  }
 
   String get _baseUrl {
     if (devBaseUrl == null) return baseUrl;
@@ -33,7 +37,7 @@ abstract class ApiService {
     return headers;
   }
   
-  Map<String, dynamic> onJsonParsed(http.Response response, Map<String, dynamic> jsonBody, Map<String, String> headers) {
+  Map<String, dynamic> onJsonReceived(http.Response response, Map<String, dynamic> jsonBody, Map<String, String> headers) {
     //Handle error codes
     if (response.statusCode != 200) {
 
@@ -102,7 +106,7 @@ abstract class ApiService {
       return {};
     }
 
-    return onJsonParsed(response, jsonBody, headers);
+    return onJsonReceived(response, jsonBody, headers);
   }
 
   //For requests that require authentication
@@ -117,7 +121,7 @@ abstract class ApiService {
     return await _makeRequest(route, method, headers, data);
   }
 
-  Future<ResponseType> _performAndParse<ResponseType extends ApiResponse<ResponseType>>(ApiRequest request) async {
+  Future<ResponseType> _performAndParse<ResponseType extends JsonObject>(ApiRequest request) async {
     Map<String, dynamic> responseJson;
     
     if (request.requiresAuth) {
@@ -133,7 +137,7 @@ abstract class ApiService {
       });
     }
 
-    return ApiResponseParser.parseResponse(responseJson) as ResponseType;
+    return JsonObjectParser.parseResponse(responseJson) as ResponseType;
   }
 
   //Convenience mirror of ApiRequest
@@ -149,6 +153,16 @@ abstract class ApiService {
 
     return _performAndParse(ApiRequest(route: route, method: method, requiresAuth: requiresAuth, data: data, name: name));
 
+  }
+
+  //To be overridden
+  final List<RegisteredJsonObjectParser> responseParsers = [];
+  
+  void _registerAllApiResponses() {
+    for (final parser in responseParsers) {
+      if (parser.type == JsonObject) throw const InfoException('JsonObjectParser: Attempted to register parser for object of base type "JsonObject". This is a mistake - did you forget to use explicit type definitions in instances of `RegisteredJsonObjectParser()`?');
+      log('Registering object of type ${parser.type}');
+    }
   }
 
 }

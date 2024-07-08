@@ -4,6 +4,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 {{/useFirebase}}
 import 'package:get_it/get_it.dart';
 import 'package:rctv/rctv.dart';
+import 'model/objects/object_registry.dart';
 import 'app_theme.dart';
 import 'model/error_handlers/error_service_plugins/api_error_plugin.dart';
 import 'model/services/auth_service.dart';
@@ -47,4 +48,6 @@ void initLocator() {
   sl.registerLazySingleton(() => NavigationChainService());
   sl.registerLazySingleton(() => GlobalAppThemeConfig());
 
+  //Make sure to init the object registry
+  initObjectRegistry();
 }

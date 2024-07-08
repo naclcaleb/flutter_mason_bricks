@@ -1,22 +1,20 @@
-import '../../api/api_response.dart';
-import '../../utils/json_list_converter.dart';
+import 'package:rctv/rctv.dart';
+import '../../api/json_tools.dart';
 
-class User extends ApiResponse<User> {
+class User implements Manageable<User>, JsonObject {
   
+  @override
   final String id;
 
-  List<User> friends;
+  User({ required this.id });
 
-  User({ required this.id, required this.friends });
-
-  @override
-  User parseFunction(Map<String, dynamic> json) => User(
-    id: json['id']!, 
-    friends: friends
+  static User parseFunction(Map<String, dynamic> json) => User(
+    id: json['id']!
   );
 
-  User.fromJson(Map<String, dynamic> json) 
-  : id = json['id']!,
-    friends = jsonListConverter(json['friends'], User.fromJson);
+  @override
+  void update(User newVersion) {
+    
+  }
 
 }

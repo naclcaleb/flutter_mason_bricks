@@ -31,8 +31,3 @@ vars:
     description: The name of your new API service
     default: new
     prompt: What should your API service be called?
-  baseUrl:
-    type: string
-    description: The base URL of all the API endpoints
-    default: 'https://example.com'
-    prompt: What is the base URL of your service?

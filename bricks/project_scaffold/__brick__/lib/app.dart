@@ -27,10 +27,10 @@ class App extends StatelessWidget {
         builder: (context, child) {
           return NotificationsServiceWidget(
             child: GlobalErrorWidget(
-              child: GlobalAuthWidget(
+              child: {{#useFirebase}}GlobalAuthWidget(
                 navigatorKey: mainRouter.routerDelegate.navigatorKey,
                 child: child ?? const SizedBox(),
-              ),
+              ),{{/useFirebase}}{{^useFirebase}}child ?? const SizedBox(){{/useFirebase}}
             ),
           );
         },

@@ -1,17 +1,20 @@
-import '../../api/api_response.dart';
+import 'package:rctv/rctv.dart';
+import '../../api/json_tools.dart';
 
-class {{name.pascalCase()}} extends ApiResponse<{{name.pascalCase()}}> {
+class {{name.pascalCase()}} implements Manageable<{{name.pascalCase()}}>, JsonObject {
   
+  @override
   final String id;
 
   {{name.pascalCase()}}({ required this.id });
 
-  @override
-  {{name.pascalCase()}} parseFunction(Map<String, dynamic> json) => {{name.pascalCase()}}(
+  static {{name.pascalCase()}} parseFunction(Map<String, dynamic> json) => {{name.pascalCase()}}(
     id: json['id']! 
   );
 
-  {{name.pascalCase()}}.fromJson(Map<String, dynamic> json) 
-  : id = json['id']!;
+  @override
+  void update({{name.pascalCase()}} newVersion) {
+    
+  }
 
 }
