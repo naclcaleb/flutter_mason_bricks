@@ -1,5 +1,5 @@
 import 'package:rctv/rctv.dart';
-import '{{name}}.dart';
+import '{{name.snakeCase()}}.dart';
 
 class Reactive{{name.pascalCase()}} extends SupervisedReactive<{{name.pascalCase()}}> {
 
