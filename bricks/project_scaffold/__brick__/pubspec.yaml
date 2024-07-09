@@ -25,7 +25,7 @@ dependencies:
   feather_icons: ^1.2.0
   emoji_picker_flutter: 1.6.1
   cached_network_image: ^3.3.1
-  rctv: ^0.0.4
+  rctv: ^0.0.22
 
 dev_dependencies:
   flutter_test:
